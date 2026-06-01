@@ -7,6 +7,11 @@ Authors@R: c(
       "Kelly", "Bodwin",
       email = "kbodwin@calpoly.edu",
       role = c("aut", "cre")
+    ),
+    person(
+      "Nathan", "Lee",
+      email = "nlee174@calpoly.edu",
+      role = c("aut")
     )
   )
 Description: A few summaries of pokemon cards.
@@ -15,9 +20,10 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     arrow,
-    data.table,
     dplyr,
+    here,
+    purrr,
     readr,
-    stringr,
+    stringi,
     tidyr
-RoxygenNote: 7.3.3
+Config/roxygen2/version: 8.0.0

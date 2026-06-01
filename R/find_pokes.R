@@ -3,37 +3,37 @@
 #' @param poke_name A character string to match against Pokémon names.
 #' @return A tibble of matching Pokémon card names and their flavor text.
 #' @importFrom dplyr filter select distinct
-#' @importFrom stringr str_detect str_to_title
+#' @importFrom stringi stri_trans_totitle stri_detect_regex
 #' @export
-find_poke <- function(poke_name) {
-  dat <- load_data()
+find_poke <- function(poke_name, data = NULL) {
+  if (is.null(data)) {
+    data <- load_data()
+    }
 
-  poke_name <- str_to_title(poke_name)
+  poke_name <- stringi::stri_trans_totitle(poke_name)
 
-  dat |>
-    filter(str_detect(name, poke_name)) |>
+  result <- data |>
     select(name, flavorText) |>
+    filter(stringi::stri_detect_regex(name, poke_name)) |>
     distinct()
 
+  return(result)
 }
 
 #' Find multiple Pokémon by name patterns
 #'
 #' @param poke_names A character vector of name patterns.
 #' @return A tibble of matching Pokémon card names and flavor text.
+#' @importFrom dplyr bind_rows distinct
+#' @importFrom purrr map
 #' @export
 find_many_pokes <- function(poke_names) {
 
-  result <- dplyr::tibble()
+  data <- load_data()
 
-  for (poke_name in poke_names) {
-
-    temp <- find_poke(poke_name)
-
-    result <- rbind(result, temp)
-
-  }
-
-  return(result)
+  poke_names |>
+    purrr::map(find_poke, data) |>
+    dplyr::bind_rows() |>
+    dplyr::distinct()
 
 }

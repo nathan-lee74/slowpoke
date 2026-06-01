@@ -4,7 +4,7 @@
 \alias{find_poke}
 \title{Find Pokémon by name pattern}
 \usage{
-find_poke(poke_name)
+find_poke(poke_name, data = NULL)
 }
 \arguments{
 \item{poke_name}{A character string to match against Pokémon names.}
